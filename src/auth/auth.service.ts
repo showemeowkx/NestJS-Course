@@ -5,6 +5,7 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  Logger,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -17,6 +18,7 @@ import { JwtPayload } from './jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
+  private logger: Logger;
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     private jwtService: JwtService,
@@ -37,8 +39,17 @@ export class AuthService {
       await this.userRepository.save(user);
     } catch (error) {
       if (error.code === '23505') {
+        this.logger.error(
+          `[ALREADY EXISTS] Failed to create a user with ${username} username`,
+        );
         throw new ConflictException('This username already exists');
-      } else throw new InternalServerErrorException();
+      } else {
+        this.logger.error(
+          `[INTERNAL] Failed to create a user with ${username} username`,
+          error.stack,
+        );
+        throw new InternalServerErrorException();
+      }
     }
   }
 
