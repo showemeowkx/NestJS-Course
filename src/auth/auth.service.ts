@@ -18,7 +18,7 @@ import { JwtPayload } from './jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
-  private logger: Logger;
+  private logger = new Logger('AuthService', { timestamp: true });
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     private jwtService: JwtService,
@@ -64,6 +64,7 @@ export class AuthService {
       const accessToken: string = await this.jwtService.signAsync(payload);
       return { accessToken };
     } else {
+      this.logger.error(`Failed to sign in for ${username}`);
       throw new UnauthorizedException('Wrong username or password!');
     }
   }

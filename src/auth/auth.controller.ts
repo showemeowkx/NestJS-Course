@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
-  private logger = Logger;
+  private logger = new Logger('AuthController');
   constructor(private authService: AuthService) {}
 
   @Post('/signup')
