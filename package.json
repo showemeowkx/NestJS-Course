@@ -8,9 +8,9 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "docker start postgres-nest && nest start && docket stop postgres-nest",
-    "start:dev": "docker start postgres-nest && nest start --watch && docket stop postgres-nest",
-    "start:debug": "docker start postgres-nest && nest start --debug --watch && docket stop postgres-nest",
+    "start": "docker start postgres-nest && nest start",
+    "start:dev": "docker start postgres-nest && nest start --watch",
+    "start:debug": "docker start postgres-nest && nest start --debug",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
